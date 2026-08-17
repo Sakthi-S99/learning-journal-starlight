@@ -3,10 +3,17 @@ import { defineConfig } from 'astro/config';
 import starlight from '@astrojs/starlight';
 import mermaid from 'astro-mermaid';
 
+// Only apply the GitHub Pages subpath during build/preview, so local dev
+// stays at the plain http://localhost:4321/ root. Checking argv (rather than
+// wrapping defineConfig in a function) keeps the config a plain object —
+// wrapping it broke Starlight's content loading entirely.
+const isDev = process.argv.includes('dev');
+const base = isDev ? '/' : '/guidewire-learning-journal';
+
 // https://astro.build/config
 export default defineConfig({
 	site: 'https://Sakthi-S99.github.io',
-	base: '/guidewire-learning-journal',
+	base,
 	prefetch: true,
 	markdown: {
 		shikiConfig: {
@@ -41,7 +48,7 @@ export default defineConfig({
 						rel: 'alternate',
 						type: 'application/rss+xml',
 						title: 'Learning Journal',
-						href: '/guidewire-learning-journal/rss.xml',
+						href: `${base === '/' ? '' : base}/rss.xml`,
 					},
 				},
 			],
