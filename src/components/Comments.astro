@@ -2,31 +2,66 @@
 // GitHub Discussions comments via giscus — same repo/category mapping used
 // on the MkDocs version of this site, so threads stay unified across both
 // while the migration is in progress.
+//
+// Perf: the widget is only injected once the container is within 200px of
+// the viewport (IntersectionObserver), so pages where a reader never
+// scrolls this far never pay for giscus's script fetch or its two
+// discussion-lookup API calls. `data-loading="lazy"` additionally tells
+// giscus to set `loading="lazy"` on the iframe itself, deferring the
+// actual comment-widget fetch until it's scrolled into view.
 ---
 
-<div class="giscus-wrapper">
-	<script
-		is:inline
-		src="https://giscus.app/client.js"
-		data-repo="Sakthi-S99/guidewire-learning-journal"
-		data-repo-id="R_kgDOTGPiug"
-		data-category="General"
-		data-category-id="IC_kwDOTGPius4DASPd"
-		data-mapping="pathname"
-		data-strict="0"
-		data-reactions-enabled="1"
-		data-emit-metadata="0"
-		data-input-position="bottom"
-		data-theme="preferred_color_scheme"
-		data-lang="en"
-		crossorigin="anonymous"
-		async></script>
-</div>
+<div class="giscus-wrapper" id="giscus-wrapper"></div>
 
 <style>
 	.giscus-wrapper {
 		margin-top: 3rem;
 		padding-top: 2rem;
 		border-top: 1px solid var(--sl-color-hairline);
+		min-height: 12rem; /* reserve space to avoid layout shift when the widget mounts */
 	}
 </style>
+
+<script>
+	function loadGiscus(container: Element) {
+		const script = document.createElement('script');
+		script.src = 'https://giscus.app/client.js';
+		script.setAttribute('data-repo', 'Sakthi-S99/guidewire-learning-journal');
+		script.setAttribute('data-repo-id', 'R_kgDOTGPiug');
+		script.setAttribute('data-category', 'General');
+		script.setAttribute('data-category-id', 'IC_kwDOTGPius4DASPd');
+		script.setAttribute('data-mapping', 'pathname');
+		script.setAttribute('data-strict', '0');
+		script.setAttribute('data-reactions-enabled', '1');
+		script.setAttribute('data-emit-metadata', '0');
+		script.setAttribute('data-input-position', 'bottom');
+		script.setAttribute('data-theme', 'preferred_color_scheme');
+		script.setAttribute('data-lang', 'en');
+		script.setAttribute('data-loading', 'lazy');
+		script.crossOrigin = 'anonymous';
+		script.async = true;
+		container.appendChild(script);
+	}
+
+	function setupGiscus() {
+		const container = document.getElementById('giscus-wrapper');
+		if (!container || container.childElementCount > 0) return;
+
+		const observer = new IntersectionObserver(
+			(entries) => {
+				for (const entry of entries) {
+					if (entry.isIntersecting) {
+						loadGiscus(container);
+						observer.disconnect();
+					}
+				}
+			},
+			{ rootMargin: '200px' }
+		);
+		observer.observe(container);
+	}
+
+	setupGiscus();
+	// Starlight uses client-side view transitions between pages — re-run on navigation.
+	document.addEventListener('astro:page-load', setupGiscus);
+</script>
