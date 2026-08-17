@@ -1,0 +1,56 @@
+---
+title: Sakthi's Learning Journal
+description: A living knowledge base built from 5+ years of real-world BillingCenter development — production incidents, architectural decisions, and hard-won Gosu patterns.
+template: splash
+hero:
+  tagline: A living knowledge base built from 5+ years of real-world BillingCenter development — production incidents, architectural decisions, and hard-won Gosu patterns.
+  actions:
+    - text: View a Project
+      link: /projects/rag-pipeline/
+      icon: right-arrow
+    - text: GitHub
+      link: https://github.com/Sakthi-S99
+      icon: external
+      variant: minimal
+---
+
+import { Card, CardGrid, LinkCard, Badge } from '@astrojs/starlight/components';
+
+## Hi, I'm Sakthi 👋
+
+I'm a Senior Software Engineer specializing in **Guidewire BillingCenter** — one of the most financially complex platforms in the insurance industry. I work at the intersection of insurance domain knowledge and technical implementation, helping carriers configure, extend, and integrate the Guidewire suite.
+
+My day-to-day spans bug fixes and root cause analysis, configuration and Gosu development, production support, architecture design, and cross-suite integrations. This journal is where I document what I learn — so it's useful to me, and hopefully to others working in the same space.
+
+## What's Here
+
+This is a proof-of-concept build on Astro Starlight — only **Projects** has been migrated so far. Everything else below is still live on the [MkDocs site](https://Sakthi-S99.github.io/guidewire-learning-journal/) and will move over incrementally.
+
+<LinkCard
+	title="Projects"
+	description="Things I've built — local AI tooling, RAG pipelines, and more"
+	href="/projects/rag-pipeline/"
+/>
+
+<CardGrid>
+	<Card title="Architecture">
+		xCenter architecture, integration flows, design decisions <Badge text="coming soon" variant="note" />
+	</Card>
+	<Card title="Concepts">
+		BillingCenter domain knowledge — invoicing, payment plans, delinquency <Badge text="coming soon" variant="note" />
+	</Card>
+	<Card title="Gosu Patterns">
+		Reusable code patterns, pitfalls, and best practices <Badge text="coming soon" variant="note" />
+	</Card>
+	<Card title="AI & Privacy">
+		Local LLM setups and privacy-focused AI tooling <Badge text="coming soon" variant="note" />
+	</Card>
+</CardGrid>
+
+## Core Focus Areas
+
+- **BillingCenter** — Invoicing, Payment Plans, Delinquency, Commissions, Disbursements
+- **Gosu Development** — Plugin implementations, GORM queries, bundle handling
+- **Cross-Suite Integration** — PC ↔ BC ↔ CC flows, REST/Messaging patterns
+- **Production Support** — RCA, incident response, regression analysis
+- **Privacy-Focused AI** — Local LLM tooling for secure development workflows

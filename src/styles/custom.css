@@ -1,0 +1,14 @@
+/* Indigo/cyan accent to rhyme with the current MkDocs Material theme */
+
+:root {
+	--sl-color-accent-low: #1a1f5c;
+	--sl-color-accent: #5c6bc0;
+	--sl-color-accent-high: #c5cae9;
+	--sl-color-white: #ffffff;
+}
+
+:root[data-theme='light'] {
+	--sl-color-accent-low: #c5cae9;
+	--sl-color-accent: #3f51b5;
+	--sl-color-accent-high: #283593;
+}
