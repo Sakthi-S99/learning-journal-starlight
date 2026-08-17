@@ -8,7 +8,7 @@ import mermaid from 'astro-mermaid';
 // wrapping defineConfig in a function) keeps the config a plain object —
 // wrapping it broke Starlight's content loading entirely.
 const isDev = process.argv.includes('dev');
-const base = isDev ? '/' : '/guidewire-learning-journal';
+const base = isDev ? '/' : '/learning-journal-starlight';
 
 // https://astro.build/config
 export default defineConfig({
