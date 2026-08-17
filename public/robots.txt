@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://Sakthi-S99.github.io/guidewire-learning-journal/sitemap-index.xml

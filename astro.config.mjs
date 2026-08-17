@@ -5,6 +5,9 @@ import mermaid from 'astro-mermaid';
 
 // https://astro.build/config
 export default defineConfig({
+	site: 'https://Sakthi-S99.github.io',
+	base: '/guidewire-learning-journal',
+	prefetch: true,
 	markdown: {
 		shikiConfig: {
 			// Shiki/TextMate has no "gosu" grammar — Groovy is the closest
@@ -31,6 +34,17 @@ export default defineConfig({
 			components: {
 				Footer: './src/components/Footer.astro',
 			},
+			head: [
+				{
+					tag: 'link',
+					attrs: {
+						rel: 'alternate',
+						type: 'application/rss+xml',
+						title: 'Learning Journal',
+						href: '/guidewire-learning-journal/rss.xml',
+					},
+				},
+			],
 			// Mirrors the mkdocs.yml nav structure from the source MkDocs site.
 			sidebar: [
 				{ label: 'About & Resume', slug: 'about' },
