@@ -1,6 +1,7 @@
 // @ts-check
 import { defineConfig } from 'astro/config';
 import starlight from '@astrojs/starlight';
+import mermaid from 'astro-mermaid';
 
 // https://astro.build/config
 export default defineConfig({
@@ -14,6 +15,10 @@ export default defineConfig({
 		},
 	},
 	integrations: [
+		mermaid({
+			theme: 'neutral',
+			autoTheme: true,
+		}),
 		starlight({
 			title: 'Learning Journal',
 			description:
@@ -23,6 +28,9 @@ export default defineConfig({
 				{ icon: 'linkedin', label: 'LinkedIn', href: 'https://linkedin.com/in/Sakthi-S99' },
 			],
 			customCss: ['./src/styles/custom.css'],
+			components: {
+				Footer: './src/components/Footer.astro',
+			},
 			// Mirrors the mkdocs.yml nav structure from the source MkDocs site.
 			sidebar: [
 				{ label: 'About & Resume', slug: 'about' },

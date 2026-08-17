@@ -3,6 +3,8 @@ title: AI & Privacy
 description: Building a private, offline-capable AI coding and productivity environment — no cloud dependency, no data leaks.
 ---
 
+import { Steps } from '@astrojs/starlight/components';
+
 > Building a private, offline-capable AI coding and productivity environment — no cloud dependency, no data leaks.
 
 ---
@@ -58,47 +60,57 @@ Ollama                ← Local LLM runtime
 
 ## Setup
 
-### 1. Visual Studio Code
+<Steps>
 
-```sh
-sudo snap install code --classic
-```
+1. **Visual Studio Code**
 
-### 2. Ollama
+   ```sh
+   sudo snap install code --classic
+   ```
 
-```sh
-curl -fsSL https://ollama.com/install.sh | sh
+2. **Ollama**
 
-# Verify
-ollama --version
+   ```sh
+   curl -fsSL https://ollama.com/install.sh | sh
 
-# Start service
-ollama serve
-# Default endpoint: http://localhost:11434
-```
+   # Verify
+   ollama --version
 
-### 3. Pull Models
+   # Start service
+   ollama serve
+   # Default endpoint: http://localhost:11434
+   ```
 
-```sh
-ollama pull qwen2.5-coder:latest   # primary coding
-ollama pull qwen3-coder:latest     # advanced coding / agentic
-ollama pull qwen3:14b              # reasoning
-ollama pull muse-glimmer:latest    # agentic / reasoning experiments
-ollama pull mistral-nemo:latest    # docs & explanations
-ollama pull llama3.1:8b            # backup
-ollama pull bge-m3:latest          # embeddings
+3. **Pull Models**
 
-# Verify
-ollama list
-```
+   ```sh
+   ollama pull qwen2.5-coder:latest   # primary coding
+   ollama pull qwen3-coder:latest     # advanced coding / agentic
+   ollama pull qwen3:14b              # reasoning
+   ollama pull muse-glimmer:latest    # agentic / reasoning experiments
+   ollama pull mistral-nemo:latest    # docs & explanations
+   ollama pull llama3.1:8b            # backup
+   ollama pull bge-m3:latest          # embeddings
 
-### 4. Continue.dev
+   # Verify
+   ollama list
+   ```
 
-- VS Code → Extensions → Search `Continue` → Install
-- Config file: `~/.continue/config.yaml`
-- Restart VS Code after configuring
+4. **Continue.dev**
 
-### 5. Continue.dev Config (`~/.continue/config.yaml`)
+   - VS Code → Extensions → Search `Continue` → Install
+   - Config file: `~/.continue/config.yaml` — full config below
+   - Restart VS Code after configuring
+
+5. **Validate**
+
+   ```sh
+   curl http://localhost:11434/api/tags
+   ```
+
+</Steps>
+
+### Continue.dev Config (`~/.continue/config.yaml`)
 
 ```yaml
 name: Local Config
@@ -254,12 +266,6 @@ rules:
   - |
     Never expose, invent or request secrets such as passwords,
     API keys, tokens or private credentials.
-```
-
-### 6. Validate
-
-```sh
-curl http://localhost:11434/api/tags
 ```
 
 ---
@@ -446,9 +452,8 @@ source ~/.bashrc
 
 No other files need changing — everything else references `$ARIVU_HOME`.
 
-<!---!!! note
-    Arivu is separate from PrithviVeda AIOS. Arivu = personal local tooling. PrithviVeda = structured multi-agent platform (in progress).
--->
+{/* Arivu is separate from PrithviVeda AIOS. Arivu = personal local tooling. PrithviVeda = structured multi-agent platform (in progress). */}
+
 ---
 
 ## Future Roadmap

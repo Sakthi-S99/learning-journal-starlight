@@ -82,24 +82,23 @@ invoice.Status = InvoiceStatus.TC_BILLED
 
 Nested bundles cause lock contention and unpredictable commit order.
 
-```gosu
-// WRONG — nested bundle creation
-Transaction.runWithNewBundle(\ outerBundle -> {
-  Transaction.runWithNewBundle(\ innerBundle -> {  // ← never do this
-    // ...
-  })
-})
-
-// CORRECT — pass the outer bundle down
-Transaction.runWithNewBundle(\ bundle -> {
-  processAccount(bundle, account)
-  processCharges(bundle, charges)
-})
-
-function processAccount(bundle : Bundle, account : Account) : void {
-  var loaded = bundle.loadBean(Account, account.ID) as Account
-  // modify loaded
-}
+```diff lang="gosu"
+- // nested bundle creation
+- Transaction.runWithNewBundle(\ outerBundle -> {
+-   Transaction.runWithNewBundle(\ innerBundle -> {  // ← never do this
+-     // ...
+-   })
+- })
++ // pass the outer bundle down
++ Transaction.runWithNewBundle(\ bundle -> {
++   processAccount(bundle, account)
++   processCharges(bundle, charges)
++ })
++
++ function processAccount(bundle : Bundle, account : Account) : void {
++   var loaded = bundle.loadBean(Account, account.ID) as Account
++   // modify loaded
++ }
 ```
 
 ---

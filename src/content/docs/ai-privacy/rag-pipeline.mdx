@@ -3,6 +3,8 @@ title: Arivu RAG Pipeline — Reference Documentation (Phase 1–2)
 description: Architecture, logic, and operational reference for the Arivu RAG pipeline.
 ---
 
+import { FileTree } from '@astrojs/starlight/components';
+
 **System:** Intel Core Ultra i7 · Intel Arc iGPU · 16GB RAM · Kubuntu
 **Stack:** Ollama + BGE-M3 + Qdrant + fastembed (BM25 + reranker) + Plain Python
 **Status:** Phase 1 (Infrastructure) complete · Phase 2 (Knowledge Base/RAG) built — hybrid search, reranking, and query expansion live; eval gate harness scaffolded, not yet run
@@ -11,29 +13,32 @@ description: Architecture, logic, and operational reference for the Arivu RAG pi
 
 ## 1. Architecture
 
-```
-Local PDFs / Markdown (~/ai-knowledge-base, never committed to git)
-        ↓
-┌─────────────── INGESTION (ingest.py) ───────────────┐
-│  Extract → Chunk → Embed → Store                     │
-└────────────────────────────────────────────────────┘
-        ↓
-   Qdrant (collection: arivu_kb, 1024-dim, Cosine)
-        ↓
-┌─────────────── QUERY (ask.py) ───────────────────────┐
-│  Embed question → Search top-K → Build context →      │
-│  Prompt LLM → Answer (context-grounded)                │
-└────────────────────────────────────────────────────┘
+```mermaid
+graph TD
+    Docs["Local PDFs / Markdown<br/>(~/ai-knowledge-base, never committed to git)"]
+    subgraph Ingestion["INGESTION (ingest.py)"]
+        I["Extract → Chunk → Embed → Store"]
+    end
+    Qdrant["Qdrant<br/>(collection: arivu_kb, 1024-dim, Cosine)"]
+    subgraph Query["QUERY (ask.py)"]
+        Q["Embed question → Search top-K → Build context → Prompt LLM → Answer (context-grounded)"]
+    end
+
+    Docs --> Ingestion --> Qdrant --> Query
 ```
 
 Project layout:
-```
-~/arivu-rag/
-├── config/settings.py     ← single source of truth for all params
-├── ingestion/ingest.py    ← parse → chunk → embed → store
-├── query/ask.py           ← embed → search → context → generate
-└── setup-qdrant.sh        ← Docker, on-demand (--restart=no)
-```
+
+<FileTree>
+- arivu-rag/
+  - config/
+    - settings.py single source of truth for all params
+  - ingestion/
+    - ingest.py parse → chunk → embed → store
+  - query/
+    - ask.py embed → search → context → generate
+  - setup-qdrant.sh Docker, on-demand (--restart=no)
+</FileTree>
 
 ---
 

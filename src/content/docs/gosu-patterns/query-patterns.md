@@ -79,18 +79,17 @@ var charges = gw.api.database.Query.make(Charge)
 
 ## Pattern 5 — Existence Check (Don't Count When You Only Need Exists)
 
-```gosu
-// WRONG — loads all records just to check count
-var count = gw.api.database.Query.make(Invoice)
-    .compare("Account", Relop.Equals, account)
-    .select()
-    .Count   // loads entire result set
-
-// CORRECT — stops at first match
-var hasInvoices = gw.api.database.Query.make(Invoice)
-    .compare("Account", Relop.Equals, account)
-    .select()
-    .FirstResult != null
+```diff lang="gosu"
+- // loads all records just to check count
+- var count = gw.api.database.Query.make(Invoice)
+-     .compare("Account", Relop.Equals, account)
+-     .select()
+-     .Count   // loads entire result set
++ // stops at first match
++ var hasInvoices = gw.api.database.Query.make(Invoice)
++     .compare("Account", Relop.Equals, account)
++     .select()
++     .FirstResult != null
 ```
 
 ---
@@ -99,21 +98,20 @@ var hasInvoices = gw.api.database.Query.make(Invoice)
 
 Never load thousands of entities into a list. Process with a cursor.
 
-```gosu
-// WRONG — loads all into memory at once
-var allAccounts = gw.api.database.Query.make(Account)
-    .select()
-    .toList()   // dangerous at scale
-
-// CORRECT — streams results
-var accountQuery = gw.api.database.Query.make(Account)
-    .compare("Retired", Relop.Equals, false)
-    .select()
-
-accountQuery.each(\ account -> {
-  // process one at a time — memory safe
-  processAccount(account)
-})
+```diff lang="gosu"
+- // loads all into memory at once
+- var allAccounts = gw.api.database.Query.make(Account)
+-     .select()
+-     .toList()   // dangerous at scale
++ // streams results
++ var accountQuery = gw.api.database.Query.make(Account)
++     .compare("Retired", Relop.Equals, false)
++     .select()
++
++ accountQuery.each(\ account -> {
++   // process one at a time — memory safe
++   processAccount(account)
++ })
 ```
 
 ---
@@ -122,12 +120,11 @@ accountQuery.each(\ account -> {
 
 Always use typelist constants, never raw strings.
 
-```gosu
-// WRONG — brittle, breaks on typelist rename
-.compare("Status", Relop.Equals, "due")
-
-// CORRECT — type-safe typelist reference
-.compare("Status", Relop.Equals, InvoiceStatus.TC_DUE)
+```diff lang="gosu"
+- // brittle, breaks on typelist rename
+- .compare("Status", Relop.Equals, "due")
++ // type-safe typelist reference
++ .compare("Status", Relop.Equals, InvoiceStatus.TC_DUE)
 ```
 
 ---
@@ -154,24 +151,23 @@ if (payment != null) {
 
 **The problem:** Querying inside a loop triggers one DB call per iteration.
 
-```gosu
-// WRONG — N+1: one query per policy period
-account.PolicyPeriods.each(\ pp -> {
-  var charges = gw.api.database.Query.make(Charge)
-      .compare("PolicyPeriod", Relop.Equals, pp)
-      .select()
-  // processes charges...
-})
-
-// CORRECT — single query, all charges at once
-var allCharges = gw.api.database.Query.make(Charge)
-    .subselect("PolicyPeriod", CompareIn, PolicyPeriod, "ID")
-        .compare("Account", Relop.Equals, account)
-    .endSubselect()
-    .select()
-
-// Group in memory if needed
-var chargesByPP = allCharges.partition(\ c -> c.PolicyPeriod)
+```diff lang="gosu"
+- // N+1: one query per policy period
+- account.PolicyPeriods.each(\ pp -> {
+-   var charges = gw.api.database.Query.make(Charge)
+-       .compare("PolicyPeriod", Relop.Equals, pp)
+-       .select()
+-   // processes charges...
+- })
++ // single query, all charges at once
++ var allCharges = gw.api.database.Query.make(Charge)
++     .subselect("PolicyPeriod", CompareIn, PolicyPeriod, "ID")
++         .compare("Account", Relop.Equals, account)
++     .endSubselect()
++     .select()
++
++ // Group in memory if needed
++ var chargesByPP = allCharges.partition(\ c -> c.PolicyPeriod)
 ```
 
 ---

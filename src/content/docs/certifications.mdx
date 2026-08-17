@@ -1,0 +1,58 @@
+---
+title: Certifications
+description: A record of completed certifications and courses — updated as new ones are earned.
+---
+
+import { Steps } from '@astrojs/starlight/components';
+
+A record of completed certifications and courses — updated as new ones are earned.
+
+---
+
+## Guidewire
+
+*Coming soon — add Guidewire Associate or Certified Developer badges here.*
+
+---
+
+## Linux & Infrastructure
+
+*Coming soon — add RHCSA or other Linux certs here.*
+
+---
+
+## Cloud & DevOps
+
+*Coming soon.*
+
+---
+
+## AI & Machine Learning
+
+*Coming soon.*
+
+---
+
+## How to Add a New Certification
+
+<Steps>
+
+1. **Get your badge image**
+
+   | Source | What to do |
+   |--------|-----------|
+   | **Local file** | Drop the image (`.png`, `.svg`, `.webp`) into `public/badges/` |
+   | **Credly** | Open your badge → Share → copy the **Image URL** and **Public URL** |
+   | **Guidewire / Badgr** | Open your badge → right-click the image → Copy image address |
+
+2. **Add a card under the right section**
+
+   Use a `<Card>` from `@astrojs/starlight/components`, or a plain Markdown image + link:
+
+   ```md
+   [![Guidewire Associate — BillingCenter](/badges/guidewire-associate-bc.png)](YOUR_VERIFY_URL)
+   ```
+
+3. **Fill in the details, save, and push.**
+
+</Steps>
