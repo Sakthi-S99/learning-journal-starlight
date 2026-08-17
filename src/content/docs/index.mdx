@@ -14,7 +14,7 @@ hero:
       variant: minimal
 ---
 
-import { Card, CardGrid, LinkCard, Badge } from '@astrojs/starlight/components';
+import { CardGrid, LinkCard } from '@astrojs/starlight/components';
 
 ## Hi, I'm Sakthi 👋
 
@@ -24,27 +24,32 @@ My day-to-day spans bug fixes and root cause analysis, configuration and Gosu de
 
 ## What's Here
 
-This is a proof-of-concept build on Astro Starlight — only **Projects** has been migrated so far. Everything else below is still live on the [MkDocs site](https://Sakthi-S99.github.io/guidewire-learning-journal/) and will move over incrementally.
-
-<LinkCard
-	title="Projects"
-	description="Things I've built — local AI tooling, RAG pipelines, and more"
-	href="/projects/rag-pipeline/"
-/>
-
 <CardGrid>
-	<Card title="Architecture">
-		xCenter architecture, integration flows, design decisions <Badge text="coming soon" variant="note" />
-	</Card>
-	<Card title="Concepts">
-		BillingCenter domain knowledge — invoicing, payment plans, delinquency <Badge text="coming soon" variant="note" />
-	</Card>
-	<Card title="Gosu Patterns">
-		Reusable code patterns, pitfalls, and best practices <Badge text="coming soon" variant="note" />
-	</Card>
-	<Card title="AI & Privacy">
-		Local LLM setups and privacy-focused AI tooling <Badge text="coming soon" variant="note" />
-	</Card>
+	<LinkCard
+		title="Projects"
+		description="Things I've built — local AI tooling, RAG pipelines, and more"
+		href="/projects/"
+	/>
+	<LinkCard
+		title="Architecture"
+		description="xCenter architecture, integration flows, design decisions"
+		href="/architecture/"
+	/>
+	<LinkCard
+		title="Concepts"
+		description="BillingCenter domain knowledge — invoicing, payment plans, delinquency"
+		href="/concepts/"
+	/>
+	<LinkCard
+		title="Gosu Patterns"
+		description="Reusable code patterns, pitfalls, and best practices"
+		href="/gosu-patterns/"
+	/>
+	<LinkCard
+		title="AI & Privacy"
+		description="Local LLM setups and privacy-focused AI tooling"
+		href="/ai-privacy/"
+	/>
 </CardGrid>
 
 ## Core Focus Areas
